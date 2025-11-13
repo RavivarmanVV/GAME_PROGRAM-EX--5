@@ -1,46 +1,69 @@
 # GAME_PROGRAM-EX--5
-## Making Player to collect the ammo and increase the bullet spawn Count.
+## Making Player to collect the ammo and increase the bullet spawn count.
 
-## Name : Ravivarman VV 
+## Name : Ravivarman VV
 ## Reg NO : 212224240133
 
 
-# Aim:
-To create ammo to increase the bullet count and increase the bullet spawn count.
+##  Aim
+To implement a gameplay feature where the player collects ammo pickups in the game world. Upon collecting ammo, the player's ammo count increases, enabling more bullet spawns (shots).
 
-# Algorithm:(for adding bullet count)
+---
 
-STEP-1: Create a HUD Blueprint.
+## Procedure
 
-STEP-2: Open the GameHUD Blueprint.
+### 1. Setup Player Character
 
-STEP-3: Create a reference to the player character.
+- Open your `PlayerCharacter` Blueprint.s
+- Add a new **Integer** variable named `AmmoCount`.
+- Set an initial default value (e.g., `AmmoCount = 10`).
+- Ensure you have a shooting mechanism in place that uses `AmmoCount` to determine if a bullet can be fired.
 
-STEP-4: Update the bullet count display.
+### 2. Create Ammo Pickup Blueprint
 
-STEP-5: Set the GameHUD as the active
+- Go to the Content Browser → Right-click → **Blueprint Class** → Select **Actor** → Name it `BP_AmmoPickup`.
+- Add components:
+  - **Static Mesh**: Representing the ammo (e.g., a bullet or crate).
+  - **Sphere Collision**: To detect overlap with the player.
+- In the Event Graph of `BP_AmmoPickup`:
+  - Use `OnComponentBeginOverlap` on the Sphere Collision.
+  - Cast to `PlayerCharacter`.
+  - Increase the player’s `AmmoCount` (e.g., `AmmoCount += 5`).
+  - Optionally, play a pickup sound or effect.
+  - Destroy the ammo pickup actor.
 
-HUD.STEP-6: Test the bullet count display.
+### 3. Update Shooting Logic (Optional)
 
-# Output:
-<img width="899" height="405" alt="image" src="https://github.com/user-attachments/assets/6c3f08ad-d7c1-4579-a582-ded6ae769677" />
+- In your player’s shooting logic:
+  - Before spawning a bullet, check `if AmmoCount > 0`.
+  - If true:
+    - Spawn bullet.
+    - Decrease `AmmoCount` by 1.
 
-# Event graph:
-<img width="883" height="294" alt="image" src="https://github.com/user-attachments/assets/a9021a69-8be8-48b9-8e09-571bc9a6416f" />
+### 4. Place Ammo in the World
 
-# Algorithm:
-STEP-1: Create an ammo actor.
-STEP-2: Set up the ammo actor.
-STEP-3: Implement the player's interaction with the ammo actor.
-STEP-4: Place the ammo actor in the level.
-STEP-5: Test the ammo pickup functionality.
-# Output:
-# AMMO IN PLAY MOD:
-<img width="899" height="405" alt="image" src="https://github.com/user-attachments/assets/f8a36322-f5ec-45bd-a752-ca976dcdbcda" />
+- Drag instances of `BP_AmmoPickup` into your level from the Content Browser.
+- Adjust position, mesh, and pickup range as needed.
 
-# EVENT GRAPH:
-AFTER HITTING AMMO
-<img width="898" height="342" alt="image" src="https://github.com/user-attachments/assets/ba6335d4-0e99-4576-91f4-29cbe0a3d4f7" />
+---
 
-# Result:
-Thus, added ammo to increase the bullet count and displayed it in play-mode.
+## Output
+
+![Screenshot 2025-05-14 140722](https://github.com/user-attachments/assets/ad7eefea-575c-44ae-9eca-6e9a623a8ef4)
+
+![Screenshot 2025-05-14 140736](https://github.com/user-attachments/assets/e82640a3-06c3-48e0-9abd-11a2e60640ba)
+
+
+![image](https://github.com/user-attachments/assets/ca2adaf2-d5b2-42fc-a40e-a81d6d69d965)
+
+![image](https://github.com/user-attachments/assets/e28cfc27-f127-40cf-94ba-e95d5fa1901f)
+
+
+##  Result
+
+- The player starts with a limited number of bullets.
+- When the player overlaps with an ammo pickup:
+  - The ammo is collected.
+  - The player's `AmmoCount` increases.
+- The player can now fire additional bullets based on the updated ammo count.
+
